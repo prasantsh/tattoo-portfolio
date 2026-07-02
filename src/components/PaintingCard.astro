@@ -1,0 +1,84 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  year: number;
+  medium: string;
+  price: number;
+  sold: boolean;
+  image: string;
+  series?: string;
+  size?: string;
+  linkTo?: 'shop' | 'lightbox';
+}
+
+const {
+  slug,
+  title,
+  year,
+  medium,
+  price,
+  sold,
+  image,
+  series,
+  size,
+  linkTo = 'shop',
+} = Astro.props;
+
+const href = `/shop/${slug}`;
+---
+
+<article class="artwork-card painting-card reveal">
+  <a href={href}>
+    <img
+      src={image}
+      alt={title}
+      loading="lazy"
+      onerror="this.src='/images/placeholder.svg'"
+    />
+    <div class="artwork-card-overlay">
+      <span class={sold ? 'sold-badge' : 'available-badge'}>
+        {sold ? 'Sold' : 'Available'}
+      </span>
+      <p style="font-size:0.8rem;color:rgba(240,236,232,0.7);margin-top:0.5rem;">View details →</p>
+    </div>
+  </a>
+
+  <div class="artwork-card-info">
+    <div class="flex justify-between items-center mb-1">
+      <h3 style="font-family:var(--font-display);font-size:1.2rem;letter-spacing:0.04em;">{title}</h3>
+      {sold
+        ? <span class="sold-badge">Sold</span>
+        : <span class="available-badge">Available</span>
+      }
+    </div>
+
+    <p class="text-muted" style="font-size:0.82rem;">{medium} · {year}</p>
+
+    {size && (
+      <p class="text-muted" style="font-size:0.78rem;font-family:var(--font-mono);">{size}</p>
+    )}
+
+    {series && (
+      <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--purple);margin-top:0.4rem;letter-spacing:0.08em;">
+        {series}
+      </p>
+    )}
+
+    <div class="flex justify-between items-center" style="margin-top:0.75rem;">
+      {!sold && (
+        <span style="font-family:var(--font-display);font-size:1.5rem;letter-spacing:0.04em;">
+          ${price.toLocaleString()}
+        </span>
+      )}
+      {sold && (
+        <span class="text-muted" style="font-size:0.85rem;">Not for sale</span>
+      )}
+      {!sold && (
+        <a href={`/inquiry?painting=${encodeURIComponent(title)}`} class="btn btn-outline" style="padding:0.5rem 1rem;font-size:0.65rem;">
+          Inquire
+        </a>
+      )}
+    </div>
+  </div>
+</article>

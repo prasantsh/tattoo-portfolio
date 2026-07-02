@@ -1,0 +1,61 @@
+---
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/gallery/tattoos', label: 'Tattoos' },
+  { href: '/gallery/paintings', label: 'Paintings' },
+  { href: '/shop', label: 'Shop' },
+  { href: '/about', label: 'About' },
+  { href: '/faq', label: 'FAQ' },
+];
+---
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span>INK</span>&amp;CANVAS
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      {links.map(({ href, label }) => (
+        <li>
+          <a href={href} class={currentPath.startsWith(href) ? 'active' : ''}>
+            {label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a href="/contact" class={currentPath === '/contact' ? 'active' : ''}>
+          Contact
+        </a>
+      </li>
+    </ul>
+
+    <a href="/booking" class="btn btn-primary nav-cta">Book Session</a>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<script>
+  const btn   = document.getElementById('hamburger');
+  const links = document.getElementById('nav-links');
+  btn?.addEventListener('click', () => {
+    links?.classList.toggle('open');
+    const spans = btn.querySelectorAll('span');
+    btn.classList.toggle('active');
+    if (btn.classList.contains('active')) {
+      spans[0].style.transform = 'rotate(45deg) translate(4px,4px)';
+      spans[1].style.opacity   = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(4px,-4px)';
+    } else {
+      spans[0].style.transform = '';
+      spans[1].style.opacity   = '';
+      spans[2].style.transform = '';
+    }
+  });
+</script>

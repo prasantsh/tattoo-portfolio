@@ -1,0 +1,225 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PaintingCard from '../components/PaintingCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPaintings = await getCollection('paintings');
+const allTattoos   = await getCollection('tattoos');
+
+const featuredPaintings = allPaintings.filter((p) => p.data.featured).slice(0, 3);
+const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
+---
+
+<Layout title="Ink & Canvas — Tattoo Artist & Painter">
+  <Nav />
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content" style="padding-top:4rem;">
+      <div class="section-eyebrow reveal">
+        <span class="label">Studio by appointment · Est. 2018</span>
+      </div>
+
+      <h1 class="display-xl reveal" style="transition-delay:0.05s;max-width:1000px;">
+        Ink on<br />
+        <span class="gradient-text">skin.</span><br />
+        Paint on<br />
+        <span style="color:var(--text-muted);">canvas.</span>
+      </h1>
+
+      <p class="reveal" style="transition-delay:0.1s;max-width:520px;font-size:1.1rem;color:var(--text-muted);margin:2rem 0 3rem;line-height:1.8;">
+        Custom tattoos rooted in dark aesthetics. Original paintings exploring the threshold between beauty and void. One artist. Two mediums. Infinite dark.
+      </p>
+
+      <div class="flex gap-3 reveal" style="transition-delay:0.15s;flex-wrap:wrap;">
+        <a href="/booking" class="btn btn-primary">Book a Tattoo</a>
+        <a href="/shop" class="btn btn-outline">View Originals</a>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator reveal" style="transition-delay:0.3s;margin-top:5rem;display:flex;align-items:center;gap:0.75rem;">
+        <div style="width:32px;height:1px;background:var(--text-dim);"></div>
+        <span class="label" style="color:var(--text-dim);">Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FEATURED WORK ─── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-eyebrow reveal">
+        <span class="label text-purple">Selected Work</span>
+      </div>
+      <h2 class="display-md reveal mb-8">Recent Pieces</h2>
+
+      <!-- Masonry-style feature grid -->
+      <div class="featured-grid reveal">
+        {featuredPaintings.slice(0, 2).map((p) => (
+          <PaintingCard
+            slug={p.slug}
+            title={p.data.title}
+            year={p.data.year}
+            medium={p.data.medium}
+            price={p.data.price}
+            sold={p.data.sold}
+            image={p.data.image}
+            series={p.data.series}
+            size={p.data.size}
+          />
+        ))}
+        {featuredTattoos.slice(0, 3).map((t) => (
+          <article class="artwork-card reveal" style="cursor:default;">
+            <img
+              src={t.data.image}
+              alt={t.data.title}
+              loading="lazy"
+              onerror="this.src='/images/placeholder.svg'"
+              style="width:100%;aspect-ratio:4/5;object-fit:cover;"
+            />
+            <div class="artwork-card-info">
+              <h3 style="font-family:var(--font-display);font-size:1.1rem;">{t.data.title}</h3>
+              <span class="style-tag">{t.data.style}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="flex gap-3 reveal" style="margin-top:3rem;flex-wrap:wrap;">
+        <a href="/gallery/tattoos" class="btn btn-outline">All Tattoos</a>
+        <a href="/gallery/paintings" class="btn btn-outline">All Paintings</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SHOP PREVIEW ─── -->
+  <section class="section" style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="flex justify-between items-center mb-8" style="flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div class="section-eyebrow reveal">
+            <span class="label text-cyan">Originals Available</span>
+          </div>
+          <h2 class="display-md reveal">Shop</h2>
+        </div>
+        <a href="/shop" class="btn btn-outline reveal">View All Works</a>
+      </div>
+
+      <div class="grid-gallery">
+        {allPaintings.filter((p) => !p.data.sold).slice(0, 4).map((p) => (
+          <PaintingCard
+            slug={p.slug}
+            title={p.data.title}
+            year={p.data.year}
+            medium={p.data.medium}
+            price={p.data.price}
+            sold={p.data.sold}
+            image={p.data.image}
+            series={p.data.series}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── BOOKING CTA ─── -->
+  <section class="section">
+    <div class="container">
+      <div class="booking-cta glass reveal" style="padding:clamp(2rem,6vw,5rem);text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, rgba(108,60,225,0.15) 0%, transparent 65%);pointer-events:none;"></div>
+        <div style="position:relative;">
+          <div class="section-eyebrow" style="justify-content:center;margin-bottom:1rem;">
+            <span class="label text-purple">Custom Tattoo</span>
+          </div>
+          <h2 class="display-lg" style="margin-bottom:1.5rem;">
+            Ready to collaborate?
+          </h2>
+          <p class="text-muted" style="max-width:480px;margin:0 auto 2.5rem;font-size:1rem;line-height:1.8;">
+            Each tattoo is a custom collaboration. Share your vision, your skin is the canvas. Limited availability — book early.
+          </p>
+          <div class="flex gap-3" style="justify-content:center;flex-wrap:wrap;">
+            <a href="/booking" class="btn btn-primary">Request a Booking</a>
+            <a href="/faq" class="btn btn-ghost">How it works →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TESTIMONIALS ─── -->
+  <section class="section" style="background:var(--bg-2);border-top:1px solid var(--border);">
+    <div class="container">
+      <div class="section-eyebrow reveal">
+        <span class="label text-pink">Client Words</span>
+      </div>
+      <h2 class="display-md reveal mb-8">Testimonials</h2>
+
+      <div class="testimonial-grid">
+        {[
+          {
+            quote: "The most thoughtful tattoo experience I've had. They understood exactly what I wanted — dark, geometric, alive. The sleeve is extraordinary.",
+            name: "— Alex K.",
+            tag: "Geometric Sleeve"
+          },
+          {
+            quote: "Bought 'Neon Requiem' last year. It's the first thing I see every morning and it still stops me. Genuine dark beauty.",
+            name: "— M. Sato",
+            tag: "Painting Collector"
+          },
+          {
+            quote: "The booking process was smooth, the communication was clear, and the result was beyond what I imagined. Exactly what good collaboration looks like.",
+            name: "— J. Rivera",
+            tag: "Fine Line Back Piece"
+          },
+        ].map((t) => (
+          <blockquote class="glass testimonial reveal" style="padding:2rem;">
+            <p style="font-size:1rem;line-height:1.8;margin-bottom:1.5rem;color:var(--text-muted);">"{t.quote}"</p>
+            <footer>
+              <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text);">{t.name}</span>
+              <span class="style-tag" style="margin-left:0.75rem;">{t.tag}</span>
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+
+  .featured-grid > :nth-child(1) { grid-column: span 2; }
+  .featured-grid > :nth-child(2) { grid-column: span 2; }
+  .featured-grid > :nth-child(3) { grid-column: span 1; grid-row: span 1; }
+  .featured-grid > :nth-child(4) { grid-column: span 2; }
+  .featured-grid > :nth-child(5) { grid-column: span 3; }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 1100px) {
+    .featured-grid { grid-template-columns: repeat(3, 1fr); }
+    .featured-grid > * { grid-column: span 1; }
+    .testimonial-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 720px) {
+    .featured-grid { grid-template-columns: 1fr 1fr; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .featured-grid { grid-template-columns: 1fr; }
+  }
+</style>

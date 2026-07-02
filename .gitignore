@@ -1,0 +1,9 @@
+dist/
+node_modules/
+.output/
+.vercel/
+.env
+.DS_Store
+*.log
+.astro/
+.claude/

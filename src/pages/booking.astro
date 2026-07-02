@@ -1,0 +1,223 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const FORMSPREE_ID = import.meta.env.PUBLIC_FORMSPREE_BOOKING ?? 'YOUR_FORM_ID';
+---
+
+<Layout
+  title="Book a Tattoo Session — Ink & Canvas"
+  description="Request a custom tattoo booking. Share your vision and preferred dates."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <section class="section">
+      <div class="container">
+        <div class="booking-layout">
+
+          <!-- Left: Info -->
+          <div class="booking-info">
+            <div class="section-eyebrow reveal">
+              <span class="label text-purple">Custom Work</span>
+            </div>
+            <h1 class="display-md reveal" style="margin-bottom:2rem;">Book a<br />Session</h1>
+
+            <div class="reveal process-steps">
+              {[
+                {
+                  n: '01',
+                  title: 'Submit Request',
+                  body: 'Fill out the form with your concept, reference images, and preferred dates. All requests reviewed within 48 hours.'
+                },
+                {
+                  n: '02',
+                  title: 'Consultation Call',
+                  body: 'If your request is a good fit, we schedule a 30-minute consultation to discuss the design in detail.'
+                },
+                {
+                  n: '03',
+                  title: 'Design Review',
+                  body: 'A custom design is prepared. You receive it for review before the session date. Revisions included.'
+                },
+                {
+                  n: '04',
+                  title: 'Session Day',
+                  body: 'Studio is private and by appointment only. Deposit (50%) confirmed on booking; balance on the day.'
+                },
+              ].map((step) => (
+                <div class="process-step">
+                  <span class="process-number">{step.n}</span>
+                  <div>
+                    <h3 style="font-family:var(--font-display);font-size:1.1rem;letter-spacing:0.05em;margin-bottom:0.4rem;">{step.title}</h3>
+                    <p class="text-muted" style="font-size:0.9rem;line-height:1.7;">{step.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div class="policies glass reveal" style="margin-top:2.5rem;padding:1.5rem;">
+              <h3 class="label" style="color:var(--cyan);margin-bottom:1rem;">Booking Policies</h3>
+              <ul class="policy-list">
+                <li>50% deposit required to secure your session date</li>
+                <li>Cancellations with &lt;48hr notice forfeit deposit</li>
+                <li>Minimum session: 3 hours</li>
+                <li>Touch-ups included within 6 months of session</li>
+                <li>No copying other artists' work</li>
+                <li>All designs are original and remain artist's property</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right: Form -->
+          <div class="booking-form-wrap">
+            <div class="glass" style="padding:2.5rem;">
+              <h2 class="display-sm reveal" style="margin-bottom:2rem;">Request Form</h2>
+
+              <form
+                id="booking-form"
+                action={`https://formspree.io/f/${FORMSPREE_ID}`}
+                method="POST"
+                enctype="multipart/form-data"
+              >
+                <div style="display:flex;flex-direction:column;gap:1.25rem;">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="name">Full Name *</label>
+                      <input type="text" id="name" name="name" required placeholder="Your name" />
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email *</label>
+                      <input type="email" id="email" name="email" required placeholder="you@example.com" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" />
+                  </div>
+
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="date1">Preferred Date 1 *</label>
+                      <input type="date" id="date1" name="preferred_date_1" required />
+                    </div>
+                    <div class="form-group">
+                      <label for="date2">Preferred Date 2</label>
+                      <input type="date" id="date2" name="preferred_date_2" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="placement">Placement *</label>
+                    <input type="text" id="placement" name="placement" required placeholder="e.g. Upper arm, left side" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="size">Approximate Size</label>
+                    <select id="size" name="size">
+                      <option value="">Select size</option>
+                      <option>Small (under 3 inches)</option>
+                      <option>Medium (3–6 inches)</option>
+                      <option>Large (6–10 inches)</option>
+                      <option>Extra large / full piece</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="style">Style Preference</label>
+                    <select id="style" name="style">
+                      <option value="">Select style</option>
+                      <option>Blackwork / Geometric</option>
+                      <option>Fine Line</option>
+                      <option>Neo-Traditional</option>
+                      <option>Abstract / Illustrative</option>
+                      <option>Open to artist's direction</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description">Describe Your Vision *</label>
+                    <textarea id="description" name="description" required rows="5" placeholder="Tell me about your idea — imagery, mood, any references. The more detail, the better."></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="references">Reference Images (optional)</label>
+                    <input type="file" id="references" name="references" accept="image/*" multiple style="padding:0.6rem;" />
+                    <p class="text-muted" style="font-size:0.75rem;font-family:var(--font-mono);">Max 3 files · JPG/PNG · 5MB each</p>
+                  </div>
+
+                  <input type="hidden" name="_subject" value="New Tattoo Booking Request" />
+                  <input type="hidden" name="_next" value="/thank-you?type=booking" />
+
+                  <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">
+                    Submit Booking Request
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .booking-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .process-step {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .process-number {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--text-dim);
+    min-width: 2.5rem;
+    line-height: 1;
+  }
+
+  .policy-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .policy-list li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .policy-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--purple);
+  }
+
+  @media (max-width: 960px) {
+    .booking-layout { grid-template-columns: 1fr; gap: 3rem; }
+  }
+</style>

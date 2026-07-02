@@ -1,0 +1,142 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const FORMSPREE_ID = import.meta.env.PUBLIC_FORMSPREE_CONTACT ?? 'YOUR_FORM_ID';
+---
+
+<Layout
+  title="Contact — Ink & Canvas"
+  description="Get in touch. Studio inquiries, press, and general questions."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <section class="section">
+      <div class="container">
+        <div class="contact-layout">
+
+          <!-- Info -->
+          <div>
+            <div class="section-eyebrow reveal">
+              <span class="label text-pink">Get In Touch</span>
+            </div>
+            <h1 class="display-lg reveal" style="margin-bottom:2rem;">Contact</h1>
+
+            <div class="contact-items reveal">
+              <div class="contact-item">
+                <span class="label text-muted">Email</span>
+                <a href="mailto:studio@youremail.com" style="color:var(--cyan);font-size:1rem;">
+                  studio@youremail.com
+                </a>
+              </div>
+
+              <div class="contact-item">
+                <span class="label text-muted">Instagram</span>
+                <a href="https://instagram.com" target="_blank" rel="noopener" style="color:var(--text);font-size:1rem;">
+                  @yourhandle
+                </a>
+              </div>
+
+              <div class="contact-item">
+                <span class="label text-muted">Studio Address</span>
+                <address style="font-style:normal;color:var(--text-muted);font-size:0.95rem;line-height:1.7;">
+                  Studio Name<br />
+                  123 Street Name<br />
+                  City, State ZIP
+                </address>
+              </div>
+
+              <div class="contact-item">
+                <span class="label text-muted">Hours</span>
+                <p class="text-muted" style="font-size:0.95rem;line-height:1.8;">
+                  By appointment only<br />
+                  Tues–Sat · 10am–7pm
+                </p>
+              </div>
+            </div>
+
+            <p class="text-muted reveal" style="margin-top:2rem;font-size:0.9rem;line-height:1.7;max-width:360px;">
+              For tattoo bookings, use the <a href="/booking" style="color:var(--purple);">booking form</a>. For painting purchases, use the <a href="/inquiry" style="color:var(--cyan);">inquiry form</a>. This form is for general questions, press, and collaboration.
+            </p>
+          </div>
+
+          <!-- Form -->
+          <div class="glass" style="padding:2.5rem;">
+            <h2 class="display-sm reveal" style="margin-bottom:2rem;">Send a Message</h2>
+
+            <form
+              action={`https://formspree.io/f/${FORMSPREE_ID}`}
+              method="POST"
+            >
+              <div style="display:flex;flex-direction:column;gap:1.25rem;">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Your name" />
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="you@example.com" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="subject">Subject</label>
+                  <select id="subject" name="subject">
+                    <option value="">Select a subject</option>
+                    <option>General Inquiry</option>
+                    <option>Press / Media</option>
+                    <option>Collaboration</option>
+                    <option>Commission (painting)</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="message">Message *</label>
+                  <textarea id="message" name="message" required rows="6" placeholder="What's on your mind?"></textarea>
+                </div>
+
+                <input type="hidden" name="_subject" value="New Contact Message" />
+                <input type="hidden" name="_next" value="/thank-you?type=contact" />
+
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  @media (max-width: 860px) {
+    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+  }
+</style>

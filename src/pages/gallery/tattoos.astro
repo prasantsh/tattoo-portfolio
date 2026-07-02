@@ -1,0 +1,117 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import TattooCard from '../../components/TattooCard.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { getCollection } from 'astro:content';
+
+const tattoos = await getCollection('tattoos');
+const styles  = [...new Set(tattoos.map((t) => t.data.style))];
+---
+
+<Layout
+  title="Tattoo Gallery — Ink & Canvas"
+  description="Custom blackwork, geometric, fine line, and neo-traditional tattoos. Gallery of completed work."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <section class="section">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <span class="label text-purple">Portfolio</span>
+        </div>
+        <h1 class="display-lg reveal mb-4">Tattoo Gallery</h1>
+        <p class="text-muted reveal mb-8" style="max-width:560px;font-size:1rem;line-height:1.8;">
+          Each piece is a unique collaboration. Custom designs only — no flash. Browse completed work and reach out to discuss your vision.
+        </p>
+
+        <!-- Style filter -->
+        <div class="filter-bar reveal mb-8">
+          <button class="filter-btn active" data-filter="all">All</button>
+          {styles.map((s) => (
+            <button class="filter-btn" data-filter={s}>{s}</button>
+          ))}
+        </div>
+
+        <div class="grid-gallery" id="tattoo-grid">
+          {tattoos.map((t) => (
+            <div class="filter-item" data-style={t.data.style}>
+              <TattooCard
+                title={t.data.title}
+                style={t.data.style}
+                image={t.data.image}
+                date={t.data.date}
+                description={t.data.description}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="gradient-line mb-8"></div>
+        <div class="flex justify-between items-center" style="flex-wrap:wrap;gap:2rem;">
+          <div>
+            <h2 class="display-sm reveal">Want custom work?</h2>
+            <p class="text-muted reveal" style="margin-top:0.75rem;">All designs are drawn from scratch for each client.</p>
+          </div>
+          <a href="/booking" class="btn btn-primary reveal">Book a Session</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Lightbox />
+  <Footer />
+</Layout>
+
+<style>
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.45rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover { border-color: var(--purple); color: var(--text); }
+  .filter-btn.active { background: rgba(108,60,225,0.2); border-color: var(--purple); color: var(--text); }
+</style>
+
+<script>
+  const btns  = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.filter-item');
+
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter ?? 'all';
+      items.forEach((item) => {
+        if (filter === 'all' || item.dataset.style === filter) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

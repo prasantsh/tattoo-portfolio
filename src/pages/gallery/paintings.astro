@@ -1,0 +1,101 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import PaintingCard from '../../components/PaintingCard.astro';
+import { getCollection } from 'astro:content';
+
+const paintings = await getCollection('paintings');
+const series    = [...new Set(paintings.map((p) => p.data.series).filter(Boolean))];
+---
+
+<Layout
+  title="Paintings Gallery — Ink & Canvas"
+  description="Original paintings — acrylic, oil, mixed media. Dark aesthetics, fine art originals."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <section class="section">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <span class="label text-cyan">Fine Art</span>
+        </div>
+        <h1 class="display-lg reveal mb-4">Paintings</h1>
+        <p class="text-muted reveal mb-8" style="max-width:540px;font-size:1rem;line-height:1.8;">
+          Original works across acrylic, oil, and mixed media. Some available for purchase — inquire for pricing and availability.
+        </p>
+
+        <!-- Series filter -->
+        <div class="filter-bar reveal mb-8">
+          <button class="filter-btn active" data-filter="all">All Series</button>
+          {series.map((s) => (
+            <button class="filter-btn" data-filter={s}>{s}</button>
+          ))}
+        </div>
+
+        <div class="grid-gallery" id="painting-grid">
+          {paintings.map((p) => (
+            <div class="filter-item" data-series={p.data.series ?? ''}>
+              <PaintingCard
+                slug={p.slug}
+                title={p.data.title}
+                year={p.data.year}
+                medium={p.data.medium}
+                price={p.data.price}
+                sold={p.data.sold}
+                image={p.data.image}
+                series={p.data.series}
+                size={p.data.size}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.45rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover  { border-color: var(--cyan); color: var(--text); }
+  .filter-btn.active { background: rgba(0,212,255,0.1); border-color: var(--cyan); color: var(--text); }
+</style>
+
+<script>
+  const btns  = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.filter-item');
+
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter ?? 'all';
+      items.forEach((item) => {
+        item.style.display =
+          filter === 'all' || item.dataset.series === filter ? '' : 'none';
+      });
+    });
+  });
+</script>

@@ -1,0 +1,104 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const FORMSPREE_ID = import.meta.env.PUBLIC_FORMSPREE_INQUIRY ?? 'YOUR_FORM_ID';
+---
+
+<Layout
+  title="Inquire About a Painting — Ink & Canvas"
+  description="Send an inquiry about purchasing an original painting."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <section class="section">
+      <div class="container" style="max-width:780px;">
+        <div class="section-eyebrow reveal">
+          <span class="label text-cyan">Originals</span>
+        </div>
+        <h1 class="display-md reveal" style="margin-bottom:1rem;">Painting Inquiry</h1>
+        <p class="text-muted reveal mb-8" style="font-size:1rem;line-height:1.8;">
+          All paintings are sold directly without intermediaries. Fill out the form and expect a response within 48 hours. Shipping worldwide, fully insured.
+        </p>
+
+        <div class="glass" style="padding:2.5rem;">
+          <form
+            action={`https://formspree.io/f/${FORMSPREE_ID}`}
+            method="POST"
+          >
+            <div style="display:flex;flex-direction:column;gap:1.25rem;">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="name">Full Name *</label>
+                  <input type="text" id="name" name="name" required placeholder="Your name" />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email *</label>
+                  <input type="email" id="email" name="email" required placeholder="you@example.com" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone (optional)</label>
+                <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" />
+              </div>
+
+              <div class="form-group">
+                <label for="painting">Painting Title *</label>
+                <input
+                  type="text"
+                  id="painting"
+                  name="painting_title"
+                  required
+                  id="painting-title-input"
+                  value=""
+                  placeholder="Which painting are you inquiring about?"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows="5"
+                  placeholder="Tell me about your interest in the work. Shipping destination, any questions — feel free to include anything relevant."
+                ></textarea>
+              </div>
+
+              <input type="hidden" name="_subject" value="Painting Inquiry" />
+              <input type="hidden" name="_next" value="/thank-you?type=inquiry" />
+
+              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">
+                Send Inquiry
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="info-chips reveal" style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+          {['Responds within 48h', 'Worldwide shipping', 'Certificate of authenticity', 'Fully insured in transit'].map((item) => (
+            <span style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.08em;color:var(--text-muted);padding:0.4rem 0.9rem;border:1px solid var(--border);border-radius:3px;">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Pre-fill painting title from URL param ?painting=...
+  const params = new URLSearchParams(window.location.search);
+  const painting = params.get('painting');
+  if (painting) {
+    const input = document.getElementById('painting-title-input') as HTMLInputElement | null;
+    if (input) input.value = decodeURIComponent(painting);
+  }
+</script>

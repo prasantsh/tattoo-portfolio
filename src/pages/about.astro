@@ -1,0 +1,230 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="About — Ink & Canvas"
+  description="Artist biography, studio philosophy, exhibitions, and CV."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+
+    <!-- Hero -->
+    <section class="section">
+      <div class="container">
+        <div class="about-hero">
+          <div class="about-text">
+            <div class="section-eyebrow reveal">
+              <span class="label text-purple">The Artist</span>
+            </div>
+            <h1 class="display-lg reveal" style="margin-bottom:2rem;">
+              Artist<br />
+              <span class="gradient-text">Name</span>
+            </h1>
+
+            <div class="artist-bio reveal">
+              <p>
+                I work across two surfaces — skin and canvas — and the same sensibility governs both. I am drawn to darkness not as aesthetic pose but as genuine inquiry: the places where form dissolves, where light fails, where things become uncertain.
+              </p>
+              <p>
+                My tattoo practice is rooted in deep collaboration. Every design is purpose-built — no flash, no shortcuts. I spend significant time in the design phase because the permanence demands it. The work is meant to survive decades.
+              </p>
+              <p>
+                The paintings are a separate but related conversation. They began as a way to explore ideas too large for skin — scale, abstraction, narrative. They ended up becoming their own practice, exhibited independently and collected internationally.
+              </p>
+              <p>
+                I am based in [City]. My studio is appointment-only, which is less a gatekeeping measure than a practical one: genuine attention requires genuine time.
+              </p>
+            </div>
+
+            <div class="reveal" style="margin-top:2rem;">
+              <a href="/booking" class="btn btn-primary">Book a Consultation</a>
+            </div>
+          </div>
+
+          <div class="about-image reveal">
+            <img
+              src="/images/studio/artist-portrait.jpg"
+              alt="Artist portrait"
+              class="portrait-img"
+              onerror="this.src='/images/placeholder.svg'"
+            />
+            <div class="portrait-accent"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Studio Photos -->
+    <section class="section" style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <span class="label text-cyan">Space</span>
+        </div>
+        <h2 class="display-sm reveal mb-8">The Studio</h2>
+
+        <div class="studio-grid">
+          {['studio-1','studio-2','studio-3'].map((img) => (
+            <div class="studio-img-wrap reveal">
+              <img
+                src={`/images/studio/${img}.jpg`}
+                alt="Studio"
+                loading="lazy"
+                onerror="this.src='/images/placeholder.svg'"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CV / Exhibitions -->
+    <section class="section">
+      <div class="container">
+        <div class="cv-layout">
+          <div>
+            <div class="section-eyebrow reveal">
+              <span class="label text-pink">Exhibitions</span>
+            </div>
+            <h2 class="display-sm reveal mb-6">Selected Shows</h2>
+
+            <div class="cv-list">
+              {[
+                { year: '2024', title: 'Threshold Works', venue: 'Gallery Name, City' },
+                { year: '2023', title: 'Dark Mechanics Solo Show', venue: 'Art Space, City' },
+                { year: '2023', title: 'Group Exhibition: Surface & Void', venue: 'Museum Name, City' },
+                { year: '2022', title: 'Nocturne Series Preview', venue: 'Pop-up, City' },
+              ].map((e) => (
+                <div class="cv-item reveal">
+                  <span class="cv-year">{e.year}</span>
+                  <div>
+                    <p style="color:var(--text);">{e.title}</p>
+                    <p class="text-muted" style="font-size:0.85rem;">{e.venue}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div class="section-eyebrow reveal">
+              <span class="label text-purple">Recognition</span>
+            </div>
+            <h2 class="display-sm reveal mb-6">Press & Awards</h2>
+
+            <div class="cv-list">
+              {[
+                { year: '2024', title: 'Featured Artist', venue: 'Publication Name' },
+                { year: '2023', title: 'Best Blackwork Award', venue: 'Tattoo Convention, City' },
+                { year: '2022', title: 'Emerging Artist Grant', venue: 'Arts Foundation' },
+              ].map((e) => (
+                <div class="cv-item reveal">
+                  <span class="cv-year">{e.year}</span>
+                  <div>
+                    <p style="color:var(--text);">{e.title}</p>
+                    <p class="text-muted" style="font-size:0.85rem;">{e.venue}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .about-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .artist-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: var(--text-muted);
+    line-height: 1.85;
+  }
+
+  .portrait-img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    aspect-ratio: 3/4;
+    object-fit: cover;
+  }
+
+  .about-image { position: relative; }
+
+  .portrait-accent {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    width: 60%;
+    height: 60%;
+    border: 1px solid rgba(108,60,225,0.3);
+    border-radius: var(--radius-lg);
+    z-index: -1;
+  }
+
+  .studio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .studio-img-wrap img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  .cv-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+
+  .cv-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cv-item {
+    display: flex;
+    gap: 2rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cv-year {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    min-width: 3rem;
+    padding-top: 0.2rem;
+  }
+
+  @media (max-width: 900px) {
+    .about-hero  { grid-template-columns: 1fr; gap: 3rem; }
+    .about-image { order: -1; }
+    .cv-layout   { grid-template-columns: 1fr; gap: 3rem; }
+    .studio-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .studio-grid { grid-template-columns: 1fr; }
+  }
+</style>

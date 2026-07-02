@@ -1,0 +1,174 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PaintingCard from '../components/PaintingCard.astro';
+import { getCollection } from 'astro:content';
+
+const paintings = await getCollection('paintings');
+const series    = [...new Set(paintings.map((p) => p.data.series).filter(Boolean))];
+
+const available = paintings.filter((p) => !p.data.sold).length;
+---
+
+<Layout
+  title="Shop Originals — Ink & Canvas"
+  description="Original paintings for sale. One-of-a-kind works — inquire to purchase."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <section class="section">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <span class="label text-pink">Originals</span>
+        </div>
+        <div class="flex justify-between items-center mb-4" style="flex-wrap:wrap;gap:1rem;">
+          <h1 class="display-lg reveal">Shop</h1>
+          <p class="text-muted reveal" style="font-family:var(--font-mono);font-size:0.8rem;">
+            {available} available · {paintings.length - available} sold
+          </p>
+        </div>
+        <p class="text-muted reveal mb-8" style="max-width:560px;font-size:1rem;line-height:1.8;">
+          All works are original, one-of-a-kind pieces. Sales handled via inquiry — no cart, no intermediaries. Shipping worldwide.
+        </p>
+
+        <!-- Filters + Sort -->
+        <div class="shop-controls reveal mb-8">
+          <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="available">Available</button>
+            <button class="filter-btn" data-filter="sold">Sold</button>
+            {series.map((s) => (
+              <button class="filter-btn" data-filter={`series:${s}`}>{s}</button>
+            ))}
+          </div>
+          <select id="sort-select" class="sort-select" aria-label="Sort paintings">
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="year-desc">Newest First</option>
+          </select>
+        </div>
+
+        <div class="grid-gallery" id="shop-grid">
+          {paintings.map((p) => (
+            <div
+              class="filter-item"
+              data-series={p.data.series ?? ''}
+              data-sold={p.data.sold ? 'true' : 'false'}
+              data-price={p.data.price}
+              data-year={p.data.year}
+            >
+              <PaintingCard
+                slug={p.slug}
+                title={p.data.title}
+                year={p.data.year}
+                medium={p.data.medium}
+                price={p.data.price}
+                sold={p.data.sold}
+                image={p.data.image}
+                series={p.data.series}
+                size={p.data.size}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .shop-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.45rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover  { border-color: var(--pink); color: var(--text); }
+  .filter-btn.active { background: rgba(255,107,157,0.1); border-color: var(--pink); color: var(--text); }
+
+  .sort-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .sort-select:focus { border-color: var(--pink); }
+</style>
+
+<script>
+  const btns   = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const sort   = document.getElementById('sort-select') as HTMLSelectElement;
+  const grid   = document.getElementById('shop-grid')!;
+
+  let activeFilter = 'all';
+
+  function applyFilter() {
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('.filter-item'));
+    items.forEach((item) => {
+      let show = false;
+      if (activeFilter === 'all')           show = true;
+      else if (activeFilter === 'available') show = item.dataset.sold === 'false';
+      else if (activeFilter === 'sold')      show = item.dataset.sold === 'true';
+      else if (activeFilter.startsWith('series:'))
+        show = item.dataset.series === activeFilter.replace('series:', '');
+      item.style.display = show ? '' : 'none';
+    });
+  }
+
+  function applySort() {
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('.filter-item'));
+    items.sort((a, b) => {
+      if (sort.value === 'price-asc')  return Number(a.dataset.price) - Number(b.dataset.price);
+      if (sort.value === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
+      if (sort.value === 'year-desc')  return Number(b.dataset.year) - Number(a.dataset.year);
+      return 0;
+    });
+    items.forEach((item) => grid.appendChild(item));
+  }
+
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter ?? 'all';
+      applyFilter();
+    });
+  });
+
+  sort.addEventListener('change', applySort);
+</script>

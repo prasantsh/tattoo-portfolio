@@ -1,0 +1,184 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const faqs = [
+  {
+    category: 'Tattoos',
+    items: [
+      {
+        q: 'Do you do walk-ins?',
+        a: 'No. All work is by appointment only. This ensures I can give each client the full design and consultation process their tattoo deserves. Please use the booking form to start the conversation.',
+      },
+      {
+        q: 'How far in advance do I need to book?',
+        a: 'Typically 4–8 weeks, depending on the complexity of the work and my current schedule. Large or complex pieces may require more lead time for design. Submit your request early.',
+      },
+      {
+        q: 'What styles do you work in?',
+        a: 'My core practice is blackwork — geometric, fine line, abstract, and neo-traditional. I do not work in colour, American traditional, or realism. If you\'re unsure whether your concept fits, send it over and I\'ll let you know honestly.',
+      },
+      {
+        q: 'Can I bring my own design?',
+        a: 'You can bring references and strong direction, but I do not tattoo other artists\' work directly. Every piece I tattoo is custom-drawn. This protects everyone involved and ensures the work fits your body correctly.',
+      },
+      {
+        q: 'How much does a tattoo cost?',
+        a: 'Pricing depends on size, complexity, and session time. My minimum is $[amount]. I\'ll provide a quote after reviewing your concept. A deposit (50% of the total) is required to secure your date.',
+      },
+      {
+        q: 'What\'s your touch-up policy?',
+        a: 'One free touch-up is included within 6 months of your session. After that, touch-ups are charged at my standard rate. Proper aftercare is required to maintain your tattoo — I\'ll provide detailed written instructions on the day.',
+      },
+    ],
+  },
+  {
+    category: 'Paintings',
+    items: [
+      {
+        q: 'How do I purchase a painting?',
+        a: 'Through the inquiry form on each painting\'s page. I don\'t use a cart or payment processor — sales are handled personally. This allows me to verify the buyer, arrange appropriate shipping, and provide provenance documentation.',
+      },
+      {
+        q: 'Do you ship internationally?',
+        a: 'Yes. All paintings are shipped fully insured with a trackable courier. Shipping costs vary by destination and are calculated at the point of sale. I\'ve shipped to Europe, North America, Japan, and Australia.',
+      },
+      {
+        q: 'Do paintings come with a certificate of authenticity?',
+        a: 'Yes. Every painting I sell includes a hand-signed certificate of authenticity with the title, medium, dimensions, year, and edition status (all originals are one-of-a-kind). This is important for future resale and provenance.',
+      },
+      {
+        q: 'Do you accept commissions for paintings?',
+        a: 'Occasionally. Custom painting commissions are more limited than tattoos — they require a longer lead time (2–4 months) and a clear brief. Use the contact form to discuss, and I\'ll let you know current availability.',
+      },
+    ],
+  },
+  {
+    category: 'Studio',
+    items: [
+      {
+        q: 'Where is the studio?',
+        a: 'The studio is located at [address], [city]. It\'s a private space — I\'ll send the full address when your appointment is confirmed.',
+      },
+      {
+        q: 'Can I bring someone with me?',
+        a: 'One guest is welcome for moral support, but the studio is small and I need to focus. Please check with me in advance if you plan to bring someone.',
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="FAQ — Ink & Canvas"
+  description="Frequently asked questions about tattoo bookings, painting purchases, and studio policies."
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <section class="section">
+      <div class="container" style="max-width:900px;">
+        <div class="section-eyebrow reveal">
+          <span class="label text-cyan">Questions</span>
+        </div>
+        <h1 class="display-lg reveal mb-4">FAQ</h1>
+        <p class="text-muted reveal mb-8" style="font-size:1rem;line-height:1.8;">
+          Everything you need to know before reaching out. If your question isn't here, use the <a href="/contact" style="color:var(--cyan);">contact form</a>.
+        </p>
+
+        {faqs.map((section) => (
+          <div class="faq-section">
+            <h2 class="faq-category reveal">{section.category}</h2>
+            <div class="faq-list">
+              {section.items.map((item) => (
+                <details class="faq-item reveal glass">
+                  <summary class="faq-question">
+                    <span>{item.q}</span>
+                    <span class="faq-icon">+</span>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>{item.a}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div class="gradient-line" style="margin:4rem 0 3rem;"></div>
+        <div class="reveal" style="text-align:center;">
+          <p class="text-muted mb-4">Still have questions?</p>
+          <div class="flex gap-3" style="justify-content:center;flex-wrap:wrap;">
+            <a href="/booking" class="btn btn-primary">Book a Session</a>
+            <a href="/contact" class="btn btn-outline">Contact</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .faq-section { margin-bottom: 3.5rem; }
+
+  .faq-category {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    padding: 0;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item[open] {
+    border-color: rgba(108,60,225,0.3);
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    list-style: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    gap: 1rem;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-icon {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: var(--purple);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .faq-item[open] .faq-icon { transform: rotate(45deg); }
+
+  .faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+</style>

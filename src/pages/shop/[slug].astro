@@ -1,0 +1,243 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import PaintingCard from '../../components/PaintingCard.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const paintings = await getCollection('paintings');
+  return paintings.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const entry    = await getEntry('paintings', slug!);
+if (!entry) return Astro.redirect('/shop');
+
+const { Content } = await entry.render();
+const { title, year, medium, size, price, sold, image, series, description } = entry.data;
+
+const all      = await getCollection('paintings');
+const related  = all
+  .filter((p) => p.slug !== slug && (!series || p.data.series === series))
+  .slice(0, 3);
+---
+
+<Layout
+  title={`${title} — Ink & Canvas`}
+  description={description}
+  image={image}
+>
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);">
+    <article>
+      <!-- Hero -->
+      <section class="section" style="padding-bottom:0;">
+        <div class="container">
+          <nav class="breadcrumb reveal mb-6">
+            <a href="/shop">Shop</a>
+            <span class="text-muted"> / </span>
+            {series && <>
+              <a href={`/shop?series=${encodeURIComponent(series)}`}>{series}</a>
+              <span class="text-muted"> / </span>
+            </>}
+            <span class="text-muted">{title}</span>
+          </nav>
+
+          <div class="painting-layout">
+            <!-- Image -->
+            <div class="painting-image-wrap reveal">
+              <img
+                src={image}
+                alt={title}
+                class="painting-hero-img"
+                onerror="this.src='/images/placeholder.svg'"
+              />
+              <div class="painting-image-glow"></div>
+            </div>
+
+            <!-- Details -->
+            <div class="painting-details">
+              {series && (
+                <p class="reveal" style="font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:0.75rem;">
+                  {series}
+                </p>
+              )}
+
+              <h1 class="display-md reveal" style="margin-bottom:0.5rem;">{title}</h1>
+
+              <div class="reveal" style="margin-bottom:2rem;">
+                <span class={sold ? 'sold-badge' : 'available-badge'} style="font-size:0.7rem;">
+                  {sold ? 'Sold' : 'Available'}
+                </span>
+              </div>
+
+              <!-- Metadata table -->
+              <div class="meta-table reveal">
+                <div class="meta-row">
+                  <span class="meta-key">Year</span>
+                  <span class="meta-val">{year}</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-key">Medium</span>
+                  <span class="meta-val">{medium}</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-key">Size</span>
+                  <span class="meta-val">{size}</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-key">Price</span>
+                  <span class="meta-val" style="font-family:var(--font-display);font-size:1.4rem;color:var(--text);">
+                    {sold ? 'Sold' : `$${price.toLocaleString()}`}
+                  </span>
+                </div>
+              </div>
+
+              {!sold && (
+                <div class="reveal" style="margin-bottom:2rem;">
+                  <a
+                    href={`/inquiry?painting=${encodeURIComponent(title)}`}
+                    class="btn btn-primary"
+                    style="width:100%;justify-content:center;"
+                  >
+                    Inquire About This Piece
+                  </a>
+                  <p class="text-muted" style="font-size:0.78rem;margin-top:0.75rem;text-align:center;font-family:var(--font-mono);">
+                    Responds within 48 hours · Shipping worldwide
+                  </p>
+                </div>
+              )}
+
+              <div class="painting-prose reveal">
+                <Content />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Related -->
+      {related.length > 0 && (
+        <section class="section" style="border-top:1px solid var(--border);background:var(--bg-2);">
+          <div class="container">
+            <div class="section-eyebrow reveal">
+              <span class="label text-cyan">
+                {series ? `More from ${series}` : 'More Works'}
+              </span>
+            </div>
+            <h2 class="display-sm reveal mb-8">Related Pieces</h2>
+            <div class="grid-gallery">
+              {related.map((p) => (
+                <PaintingCard
+                  slug={p.slug}
+                  title={p.data.title}
+                  year={p.data.year}
+                  medium={p.data.medium}
+                  price={p.data.price}
+                  sold={p.data.sold}
+                  image={p.data.image}
+                  series={p.data.series}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </article>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .breadcrumb {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .breadcrumb a {
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .breadcrumb a:hover { color: var(--text); }
+
+  .painting-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .painting-image-wrap {
+    position: sticky;
+    top: calc(var(--nav-h) + 2rem);
+  }
+
+  .painting-hero-img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    object-fit: contain;
+    max-height: 75vh;
+  }
+
+  .painting-image-glow {
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(ellipse, rgba(108,60,225,0.12) 0%, transparent 65%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .meta-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-row:last-child { border-bottom: none; }
+
+  .meta-key {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .meta-val {
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .painting-prose {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+
+  .painting-prose p  { margin-bottom: 1rem; }
+  .painting-prose em { color: var(--text); font-style: italic; }
+
+  @media (max-width: 900px) {
+    .painting-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .painting-image-wrap { position: static; }
+  }
+</style>

@@ -1,0 +1,130 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="display:inline-block;margin-bottom:1rem;">
+          <span>INK</span>&amp;CANVAS
+        </a>
+        <p class="text-muted" style="max-width:260px;font-size:0.9rem;line-height:1.7;">
+          Custom tattoos &amp; fine art paintings. Studio by appointment only.
+        </p>
+        <div class="social-links">
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a href="mailto:studio@youremail.com" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading label" style="margin-bottom:1rem;">Work</h4>
+        <ul class="footer-links">
+          <li><a href="/gallery/tattoos">Tattoo Gallery</a></li>
+          <li><a href="/gallery/paintings">Paintings</a></li>
+          <li><a href="/shop">Shop / Originals</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading label" style="margin-bottom:1rem;">Studio</h4>
+        <ul class="footer-links">
+          <li><a href="/about">About</a></li>
+          <li><a href="/booking">Book a Session</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading label" style="margin-bottom:1rem;">Location</h4>
+        <p class="text-muted" style="font-size:0.9rem;line-height:1.8;">
+          Studio address<br />
+          City, State ZIP<br />
+          <a href="mailto:studio@youremail.com" style="color:var(--cyan);">studio@youremail.com</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="gradient-line" style="margin:3rem 0 1.5rem;"></div>
+
+    <div class="footer-bottom">
+      <p class="text-muted" style="font-size:0.8rem;">
+        &copy; {year} Ink &amp; Canvas. All rights reserved.
+      </p>
+      <p class="text-muted" style="font-size:0.8rem;">
+        All artwork &amp; photography are the property of the artist.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 3rem;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-links a {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text); }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .social-links a {
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .social-links a:hover { color: var(--cyan); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo span {
+    background: var(--grad-pc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @media (max-width: 900px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+
+  @media (max-width: 560px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>

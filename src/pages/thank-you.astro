@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Thank You — Ink & Canvas">
+  <Nav />
+
+  <main style="padding-top:var(--nav-h);min-height:80vh;display:flex;align-items:center;">
+    <section class="section" style="width:100%;">
+      <div class="container" style="max-width:640px;text-align:center;">
+        <div class="checkmark reveal">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="31" stroke="url(#grad)" stroke-width="1.5"/>
+            <polyline points="20,33 28,41 44,25" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <defs>
+              <linearGradient id="grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#6C3CE1"/>
+                <stop offset="100%" stop-color="#00D4FF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <h1 class="display-md reveal" id="ty-heading" style="margin-top:2rem;margin-bottom:1rem;">
+          Message Sent
+        </h1>
+
+        <p class="text-muted reveal" id="ty-body" style="font-size:1.05rem;line-height:1.85;margin-bottom:3rem;">
+          Your message has been received. I'll get back to you as soon as I can — usually within a couple of days.
+        </p>
+
+        <div class="flex gap-3 reveal" id="ty-links" style="justify-content:center;flex-wrap:wrap;">
+          <a href="/" class="btn btn-outline">Back Home</a>
+          <a href="/gallery/tattoos" class="btn btn-outline">View Portfolio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const messages: Record<string, { heading: string; body: string; links: { label: string; href: string }[] }> = {
+    booking: {
+      heading: 'Request Received',
+      body: 'Your booking request is in. I review all requests personally and will be in touch within 48 hours to discuss your concept and check availability.',
+      links: [{ label: 'View FAQ', href: '/faq' }, { label: 'Back Home', href: '/' }],
+    },
+    inquiry: {
+      heading: 'Inquiry Sent',
+      body: "Your painting inquiry has been sent. I'll respond within 48 hours with availability, shipping details, and any additional information.",
+      links: [{ label: 'Browse More Work', href: '/shop' }, { label: 'Back Home', href: '/' }],
+    },
+    contact: {
+      heading: 'Message Sent',
+      body: "Your message has been received. I'll get back to you as soon as I can — usually within a couple of days.",
+      links: [{ label: 'Back Home', href: '/' }, { label: 'View Portfolio', href: '/gallery/tattoos' }],
+    },
+  };
+
+  const type = new URLSearchParams(window.location.search).get('type') ?? 'contact';
+  const msg  = messages[type] ?? messages.contact;
+
+  const heading = document.getElementById('ty-heading');
+  const body    = document.getElementById('ty-body');
+  const links   = document.getElementById('ty-links');
+
+  if (heading) heading.textContent = msg.heading;
+  if (body)    body.textContent    = msg.body;
+  if (links) {
+    links.innerHTML = msg.links
+      .map((l) => `<a href="${l.href}" class="btn btn-outline">${l.label}</a>`)
+      .join('');
+  }
+</script>
+
+<style>
+  .checkmark {
+    display: flex;
+    justify-content: center;
+  }
+
+  .checkmark svg {
+    animation: pop-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes pop-in {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+</style>
