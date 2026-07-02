@@ -54,7 +54,6 @@ const related  = all
                 class="painting-hero-img"
                 onerror="this.src='/images/placeholder.svg'"
               />
-              <div class="painting-image-glow"></div>
             </div>
 
             <!-- Details -->
@@ -181,16 +180,9 @@ const related  = all
   .painting-hero-img {
     width: 100%;
     border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
     object-fit: contain;
     max-height: 75vh;
-  }
-
-  .painting-image-glow {
-    position: absolute;
-    inset: -20px;
-    background: radial-gradient(ellipse, rgba(108,60,225,0.12) 0%, transparent 65%);
-    z-index: -1;
-    pointer-events: none;
   }
 
   .meta-table {

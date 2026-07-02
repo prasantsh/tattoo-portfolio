@@ -91,8 +91,8 @@ const styles  = [...new Set(tattoos.map((t) => t.data.style))];
     transition: all 0.2s;
   }
 
-  .filter-btn:hover { border-color: var(--purple); color: var(--text); }
-  .filter-btn.active { background: rgba(108,60,225,0.2); border-color: var(--purple); color: var(--text); }
+  .filter-btn:hover { border-color: var(--text); color: var(--text); }
+  .filter-btn.active { background: var(--text); border-color: var(--text); color: var(--bg); }
 </style>
 
 <script>

@@ -43,18 +43,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://your-dom
 
   </head>
   <body>
-    <div class="cursor-glow" id="cursor-glow"></div>
     <slot />
     <script>
-      // Cursor glow
-      const glow = document.getElementById('cursor-glow');
-      if (glow && window.matchMedia('(pointer: fine)').matches) {
-        document.addEventListener('mousemove', (e) => {
-          glow.style.left = e.clientX + 'px';
-          glow.style.top  = e.clientY + 'px';
-        });
-      }
-
       // Scroll reveal
       const reveals = document.querySelectorAll('.reveal');
       const observer = new IntersectionObserver(
@@ -64,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://your-dom
       reveals.forEach((el) => observer.observe(el));
 
       // Nav scroll state
-      const nav = document.querySelector('nav');
+      const nav = document.querySelector('nav.site-nav');
       if (nav) {
         window.addEventListener('scroll', () => {
           nav.classList.toggle('scrolled', window.scrollY > 40);

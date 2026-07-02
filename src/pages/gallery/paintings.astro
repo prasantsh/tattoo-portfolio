@@ -79,8 +79,8 @@ const series    = [...new Set(paintings.map((p) => p.data.series).filter(Boolean
     transition: all 0.2s;
   }
 
-  .filter-btn:hover  { border-color: var(--cyan); color: var(--text); }
-  .filter-btn.active { background: rgba(0,212,255,0.1); border-color: var(--cyan); color: var(--text); }
+  .filter-btn:hover  { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 </style>
 
 <script>
