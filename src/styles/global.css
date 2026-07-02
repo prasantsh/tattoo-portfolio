@@ -91,6 +91,8 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 clamp(1rem, 4vw, 3rem);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
 }
 
 .section {
@@ -194,6 +196,19 @@ nav.site-nav.scrolled { border-bottom-color: var(--border-hover); }
 }
 
 .nav-logo span { color: var(--accent); }
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border-hover);
+  display: inline-block;
+}
 
 .nav-links {
   display: flex;
@@ -482,6 +497,7 @@ footer {
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
+  .nav-divider { display: none; }
   .nav-links { display: none; }
   .nav-links.open {
     display: flex;

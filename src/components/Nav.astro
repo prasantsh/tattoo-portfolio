@@ -12,7 +12,10 @@ const links = [
 
 <nav class="site-nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo">Aashma</a>
+    <div class="nav-brand">
+      <a href="/" class="nav-logo">Aashma</a>
+      <span class="nav-divider" aria-hidden="true"></span>
+    </div>
 
     <ul class="nav-links" id="nav-links">
       {links.map(({ href, label }) => (
