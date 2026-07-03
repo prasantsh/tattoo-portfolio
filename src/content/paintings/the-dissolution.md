@@ -6,7 +6,7 @@ medium: "Mixed Media on Board"
 size: "48\" × 48\""
 price: 4200
 sold: true
-image: "/images/paintings/the-dissolution.jpg"
+image: "/images/paintings/work-5.jpg"
 featured: false
 description: "Ink, oil, and torn paper collide on a black-primed board. A face — barely legible — surfaces and recedes from layers of obscuring material. The question is not whether the figure exists, but whether emergence or disappearance is the subject."
 ---

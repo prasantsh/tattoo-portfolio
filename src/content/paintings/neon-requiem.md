@@ -6,7 +6,7 @@ medium: "Oil on Canvas"
 size: "24\" × 36\""
 price: 3400
 sold: false
-image: "/images/paintings/neon-requiem.jpg"
+image: "/images/paintings/work-2.jpg"
 featured: true
 description: "A figure dissolves into overlapping halos of electric light — pink, cyan, violet — against an abyss that swallows the edges. Part elegy, part celebration. The work meditates on impermanence and the residue we leave behind."
 ---

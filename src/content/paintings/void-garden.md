@@ -6,7 +6,7 @@ medium: "Acrylic on Canvas"
 size: "36\" × 48\""
 price: 2800
 sold: false
-image: "/images/paintings/void-garden.jpg"
+image: "/images/paintings/work-1.jpg"
 featured: true
 description: "A labyrinthine garden suspended in perpetual dusk. Dark vines spiral against a violet-black sky, illuminated only by bioluminescent blooms that pulse with quiet urgency. This piece explores the paradox of beauty thriving within confinement."
 ---

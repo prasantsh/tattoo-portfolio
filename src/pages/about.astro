@@ -35,7 +35,7 @@ import Footer from '../components/Footer.astro';
                 The paintings are a separate but related conversation. They began as a way to explore ideas too large for skin — scale, abstraction, narrative. They ended up becoming their own practice, exhibited independently and collected internationally.
               </p>
               <p>
-                I am based in [City]. My studio is appointment-only, which is less a gatekeeping measure than a practical one: genuine attention requires genuine time.
+                I am based in Kathmandu, Nepal, working out of <strong>Al.Ink Studio</strong>. My studio is appointment-only, which is less a gatekeeping measure than a practical one: genuine attention requires genuine time.
               </p>
             </div>
 
@@ -66,13 +66,38 @@ import Footer from '../components/Footer.astro';
         <h2 class="display-sm reveal mb-8">The Studio</h2>
 
         <div class="studio-grid">
-          {['studio-1','studio-2','studio-3'].map((img) => (
+          {['/images/paintings/work-1.jpg','/images/paintings/work-3.jpg','/images/paintings/work-5.jpg'].map((src) => (
             <div class="studio-img-wrap reveal">
               <img
-                src={`/images/studio/${img}.jpg`}
-                alt="Studio"
+                src={src}
+                alt="Al.Ink Studio"
                 loading="lazy"
                 onerror="this.src='/images/placeholder.svg'"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Videos -->
+    <section class="section">
+      <div class="container">
+        <div class="section-eyebrow reveal">
+          <span class="label text-purple">Behind the Needle</span>
+        </div>
+        <h2 class="display-sm reveal mb-8">Process Reels</h2>
+
+        <div class="video-grid">
+          {['/videos/process-1.mp4', '/videos/process-2.mp4'].map((src) => (
+            <div class="video-wrap reveal">
+              <video
+                src={src}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
               />
             </div>
           ))}
@@ -181,6 +206,20 @@ import Footer from '../components/Footer.astro';
     gap: 1.25rem;
   }
 
+  .video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .video-wrap video {
+    width: 100%;
+    aspect-ratio: 9/16;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    display: block;
+  }
+
   .studio-img-wrap img {
     width: 100%;
     aspect-ratio: 4/3;
@@ -221,6 +260,7 @@ import Footer from '../components/Footer.astro';
     .about-image { order: -1; }
     .cv-layout   { grid-template-columns: 1fr; gap: 3rem; }
     .studio-grid { grid-template-columns: 1fr 1fr; }
+    .video-grid  { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 560px) {

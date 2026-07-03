@@ -6,7 +6,7 @@ medium: "Acrylic on Canvas"
 size: "30\" × 40\""
 price: 2200
 sold: false
-image: "/images/paintings/chromatic-reverie.jpg"
+image: "/images/paintings/work-4.jpg"
 featured: false
 description: "Pure colour as architecture. Bands of saturated hue shift and bleed into one another, constructing a space that feels physically inhabitable — a room made entirely of light. The eye cannot find a resting point; the work demands perpetual movement."
 ---
