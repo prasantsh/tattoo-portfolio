@@ -93,17 +93,16 @@ const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
           />
         ))}
         {featuredTattoos.slice(0, 3).map((t) => (
-          <article class="artwork-card reveal" style="cursor:default;">
-            <img
-              src={t.data.image}
-              alt={t.data.title}
-              loading="lazy"
-              onerror="this.src='/images/placeholder.svg'"
-              style="width:100%;aspect-ratio:4/5;object-fit:cover;"
-            />
-            <div class="artwork-card-info">
-              <h3 style="font-family:var(--font-display);font-size:1.1rem;">{t.data.title}</h3>
+          <article class="feat-tattoo-card reveal">
+            <div class="feat-tattoo-accent"></div>
+            <div class="feat-tattoo-body">
               <span class="style-tag">{t.data.style}</span>
+              <h3 style="font-family:var(--font-display);font-size:1.2rem;margin-top:0.5rem;">{t.data.title}</h3>
+              {t.data.description && (
+                <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.65;margin-top:0.75rem;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;">
+                  {t.data.description}
+                </p>
+              )}
             </div>
           </article>
         ))}
@@ -258,6 +257,30 @@ const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
     object-fit: cover;
     border-radius: var(--radius-lg);
     display: block;
+  }
+
+  /* ── Featured tattoo text cards ── */
+  .feat-tattoo-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--transition);
+  }
+
+  .feat-tattoo-card:hover { border-color: var(--border-hover); }
+
+  .feat-tattoo-accent {
+    height: 2px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .feat-tattoo-body {
+    padding: 1.25rem;
+    flex: 1;
   }
 
   /* ── Featured grid ── */

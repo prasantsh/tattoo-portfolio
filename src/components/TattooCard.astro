@@ -2,38 +2,83 @@
 interface Props {
   title: string;
   style: string;
-  image: string;
   date: string;
   description?: string;
 }
 
-const { title, style, image, date, description } = Astro.props;
+const { title, style, date, description } = Astro.props;
+const dateLabel = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
 ---
 
-<article class="artwork-card tattoo-card reveal" data-title={title} data-image={image}>
-  <div class="card-img-wrap">
-    <img
-      src={image}
-      alt={title}
-      loading="lazy"
-      onerror="this.src='/images/placeholder.svg'"
-    />
-    <div class="artwork-card-overlay">
-      {description && (
-        <p style="font-size:0.8rem;color:rgba(255,255,255,0.85);line-height:1.5;">{description}</p>
-      )}
-    </div>
-  </div>
-
-  <div class="artwork-card-info">
-    <div class="flex justify-between items-center mb-1">
-      <h3 style="font-family:var(--font-display);font-size:1.1rem;letter-spacing:0.04em;">{title}</h3>
-    </div>
-    <div class="flex gap-1 items-center">
-      <span class="style-tag">{style}</span>
-      <span class="text-muted" style="font-size:0.75rem;font-family:var(--font-mono);">
-        {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
-      </span>
-    </div>
+<article class="tattoo-card reveal">
+  <div class="tattoo-card-accent"></div>
+  <div class="tattoo-card-body">
+    <span class="style-tag">{style}</span>
+    <h3 class="tattoo-card-title">{title}</h3>
+    {description && (
+      <p class="tattoo-card-desc">{description}</p>
+    )}
+    <span class="tattoo-card-date">{dateLabel}</span>
   </div>
 </article>
+
+<style>
+  .tattoo-card {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .tattoo-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+  }
+
+  .tattoo-card-accent {
+    height: 2px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .tattoo-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 1.5rem;
+    flex: 1;
+  }
+
+  .tattoo-card-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  .tattoo-card-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tattoo-card-date {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-top: auto;
+  }
+</style>
