@@ -169,9 +169,7 @@ nav.site-nav {
   height: var(--nav-h);
   display: flex;
   align-items: center;
-  background: rgba(255,255,255,0.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.96);
   border-bottom: 1px solid var(--border);
   transition: all var(--transition);
 }
@@ -496,6 +494,10 @@ footer {
 }
 
 /* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .container { border-left: none; border-right: none; }
+}
+
 @media (max-width: 768px) {
   .nav-divider { display: none; }
   .nav-links { display: none; }
@@ -504,7 +506,7 @@ footer {
     flex-direction: column;
     position: fixed;
     inset: var(--nav-h) 0 0;
-    background: rgba(255,255,255,0.98);
+    background: var(--bg);
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
