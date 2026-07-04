@@ -195,19 +195,24 @@ const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
       <div class="testimonial-grid">
         {[
           {
-            quote: "The most thoughtful tattoo experience I've had. They understood exactly what I wanted — dark, geometric, alive. The sleeve is extraordinary.",
-            name: "— Alex K.",
+            quote: "The most thoughtful tattoo experience I've had in Kathmandu. She understood exactly what I wanted — dark, geometric, alive. The sleeve is extraordinary.",
+            name: "— Prasant Shrestha",
             tag: "Geometric Sleeve"
           },
           {
-            quote: "Bought 'Neon Requiem' last year. It's the first thing I see every morning and it still stops me. Genuine dark beauty.",
-            name: "— M. Sato",
+            quote: "Bought 'Neon Requiem' for my flat in Patan last year. It's the first thing I see every morning and it still stops me. Genuine dark beauty.",
+            name: "— Pawan Shrestha",
             tag: "Painting Collector"
           },
           {
-            quote: "The booking process was smooth, the communication was clear, and the result was beyond what I imagined. Exactly what good collaboration looks like.",
-            name: "— J. Rivera",
+            quote: "From the first consultation at the studio to the final session, everything was clear and relaxed. The result was beyond what I imagined.",
+            name: "— Sujata Maharjan",
             tag: "Fine Line Back Piece"
+          },
+          {
+            quote: "I'd been putting off my first tattoo for years. She talked me through every detail and the healing was flawless. Already planning the next one.",
+            name: "— Anish Tamang",
+            tag: "Blackwork Forearm"
           },
         ].map((t) => (
           <blockquote class="glass testimonial reveal" style="padding:2rem;">
@@ -330,7 +335,7 @@ const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
 
   .testimonial-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
