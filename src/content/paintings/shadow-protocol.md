@@ -6,7 +6,7 @@ medium: "Oil on Linen"
 size: "20\" × 28\""
 price: 1800
 sold: false
-image: "/images/paintings/work-3.jpg"
+image: "/images/paintings/shadow-protocol.jpeg"
 featured: true
 description: "Mechanical forms — gears, conduits, skeletal architectures — rendered in near-total darkness. The shapes are legible only at the edges, where pale light catches metal that has no clear source or purpose. Infrastructure as mythology."
 ---
