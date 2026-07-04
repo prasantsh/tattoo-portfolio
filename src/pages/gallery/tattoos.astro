@@ -29,6 +29,22 @@ const styles  = [...new Set(tattoos.map((t) => t.data.style))];
 
         <div class="divider mb-8"></div>
 
+        <!-- Session videos -->
+        <div class="session-grid mb-8">
+          {['/videos/session-1.mp4', '/videos/session-2.mp4', '/videos/session-3.mp4', '/videos/session-4.mp4'].map((src) => (
+            <div class="session-video-wrap reveal">
+              <video
+                src={src}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              />
+            </div>
+          ))}
+        </div>
+
         <!-- Style filter -->
         <div class="filter-bar reveal mb-8">
           <button class="filter-btn active" data-filter="all">All</button>
@@ -94,6 +110,29 @@ const styles  = [...new Set(tattoos.map((t) => t.data.style))];
 
   .filter-btn:hover { border-color: var(--text); color: var(--text); }
   .filter-btn.active { background: var(--text); border-color: var(--text); color: var(--bg); }
+
+  .session-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .session-video-wrap video {
+    width: 100%;
+    aspect-ratio: 9/16;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  @media (max-width: 900px) {
+    .session-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .session-grid { grid-template-columns: 1fr; }
+  }
 </style>
 
 <script>

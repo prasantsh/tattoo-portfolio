@@ -108,6 +108,22 @@ const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
         ))}
       </div>
 
+      <!-- Session videos -->
+      <div class="session-grid" style="margin-top:3rem;">
+        {['/videos/session-1.mp4', '/videos/session-2.mp4', '/videos/session-3.mp4', '/videos/session-4.mp4'].map((src) => (
+          <div class="session-video-wrap reveal">
+            <video
+              src={src}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            />
+          </div>
+        ))}
+      </div>
+
       <div class="flex gap-3 reveal" style="margin-top:3rem;flex-wrap:wrap;">
         <a href="/gallery/tattoos" class="btn btn-outline">All Tattoos</a>
         <a href="/gallery/paintings" class="btn btn-outline">All Paintings</a>
@@ -290,6 +306,22 @@ const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
     gap: 1.25rem;
   }
 
+  /* ── Session videos ── */
+  .session-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .session-video-wrap video {
+    width: 100%;
+    aspect-ratio: 9/16;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    display: block;
+  }
+
   .featured-grid > :nth-child(1) { grid-column: span 2; }
   .featured-grid > :nth-child(2) { grid-column: span 2; }
   .featured-grid > :nth-child(3) { grid-column: span 1; grid-row: span 1; }
@@ -312,10 +344,12 @@ const featuredTattoos   = allTattoos.filter((t) => t.data.featured).slice(0, 3);
 
   @media (max-width: 720px) {
     .featured-grid { grid-template-columns: 1fr 1fr; }
+    .session-grid { grid-template-columns: 1fr 1fr; }
     .testimonial-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 480px) {
     .featured-grid { grid-template-columns: 1fr; }
+    .session-grid { grid-template-columns: 1fr; }
   }
 </style>

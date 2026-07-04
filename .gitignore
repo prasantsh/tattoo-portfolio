@@ -7,3 +7,6 @@ node_modules/
 *.log
 .astro/
 .claude/
+
+# Raw footage (source files, too large for git)
+tattoo_session/
